@@ -1,7 +1,6 @@
 package twilio
 
 import (
-	"encoding/json"
 	"fmt"
 	"github.com/joho/godotenv"
 	"github.com/twilio/twilio-go"
@@ -26,16 +25,20 @@ func SendSMS(toNumber string, body string) bool {
 
 	params := &twilioApi.CreateMessageParams{}
 	params.SetFrom(os.Getenv("FROM_NUMBER"))
+	// Optional: Used for monitoring within twilio
+	if os.Getenv("MESSAGING_SERVICE_SID") != "" {
+		params.SetMessagingServiceSid(os.Getenv("MESSAGING_SERVICE_SID"))
+	}
 	params.SetTo(toNumber)
 	params.SetBody(body)
 
-	resp, err := client.Api.CreateMessage(params)
+	_, err = client.Api.CreateMessage(params)
 	if err != nil {
 		fmt.Println(err.Error())
 		return false
 	} else {
-		response, _ := json.Marshal(*resp)
-		fmt.Println("Response: " + string(response))
+		//response, _ := json.Marshal(*resp)
+		//fmt.Println("Response: " + string(response))
 		return true
 	}
 }
