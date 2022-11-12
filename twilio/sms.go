@@ -37,8 +37,6 @@ func SendSMS(toNumber string, body string) bool {
 		fmt.Println(err.Error())
 		return false
 	} else {
-		//response, _ := json.Marshal(*resp)
-		//fmt.Println("Response: " + string(response))
 		return true
 	}
 }
